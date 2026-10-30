@@ -1,0 +1,78 @@
+---
+interface Props {
+	productName: string;
+	affiliateLink: string;
+	category?: string;
+}
+
+const { productName, affiliateLink, category } = Astro.props;
+---
+
+<aside
+	aria-label={`Oferta recomendada: ${productName}`}
+	class="my-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:p-6"
+>
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+		<div class="min-w-0 flex-1 space-y-2">
+			<div class="flex flex-wrap items-center gap-2">
+				<span class="inline-flex items-center rounded-md bg-[#FFE600] px-2.5 py-0.5 text-xs font-bold tracking-wide text-slate-900 uppercase">
+					Mercado Livre
+				</span>
+				{
+					category && (
+						<span class="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+							{category}
+						</span>
+					)
+				}
+				<span class="inline-flex items-center gap-1 text-xs font-semibold text-[#00A650]">
+					<svg
+						class="h-3.5 w-3.5 shrink-0"
+						 viewBox="0 0 20 20"
+						fill="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+					Compra Garantida
+				</span>
+			</div>
+
+			<h2 class="line-clamp-2 break-words text-lg font-bold leading-snug text-slate-900 sm:text-xl">
+				{productName}
+			</h2>
+
+			<p class="m-0 text-xs text-slate-500 sm:text-sm">
+				Confira disponibilidade, avaliações reais e condições de frete no site oficial.
+			</p>
+		</div>
+
+		<div class="shrink-0 pt-2 sm:pt-0">
+			<a
+				href={affiliateLink}
+				target="_blank"
+				rel="sponsored nofollow noopener"
+				class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3483FA] px-6 py-3.5 text-center text-sm font-bold text-white no-underline shadow-xs transition-colors hover:bg-[#2968C8] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3483FA] active:bg-[#1F4E96] sm:w-auto sm:text-base"
+			>
+				<span>Ver Oferta no Mercado Livre</span>
+				<svg
+					class="h-4 w-4 shrink-0"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+					aria-hidden="true"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</aside>
+

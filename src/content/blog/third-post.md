@@ -2,6 +2,9 @@
 title: 'Third post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Jul 22 2022'
+category: 'Suplementos'
+productName: 'Whey Protein Concentrado 1kg'
+affiliateLink: 'https://www.mercadolivre.com.br/'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 ---
 

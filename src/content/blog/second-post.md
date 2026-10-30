@@ -2,6 +2,9 @@
 title: 'Second post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Jul 15 2022'
+category: 'Equipamentos'
+productName: 'Kit Halteres Ajustáveis Revestidos 20kg'
+affiliateLink: 'https://www.mercadolivre.com.br/'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 

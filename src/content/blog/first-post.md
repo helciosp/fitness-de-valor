@@ -2,6 +2,9 @@
 title: 'First post'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Jul 08 2022'
+category: 'Suplementos'
+productName: 'Creatina Monohidratada 100% Pura 300g'
+affiliateLink: 'https://www.mercadolivre.com.br/'
 heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
