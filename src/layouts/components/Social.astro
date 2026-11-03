@@ -32,23 +32,25 @@ const normalize = (src: any): ISocial[] => {
   return [];
 };
 
-const items = normalize(source);
+const items = normalize(source).filter((item) => Boolean(item.link));
 ---
 
-<ul class={className}>
-  {
-    items.map((social: ISocial) => (
-      <li>
-        <a
-          aria-label={social.name}
-          href={social.link}
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-        >
-          <span class="sr-only">{social.name}</span>
-          <DynamicIcon className="inline-block" icon={social.icon} />
-        </a>
-      </li>
-    ))
-  }
-</ul>
+{
+  items.length > 0 && (
+    <ul class={className}>
+      {items.map((social: ISocial) => (
+        <li>
+          <a
+            aria-label={social.name}
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          >
+            <span class="sr-only">{social.name}</span>
+            <DynamicIcon className="inline-block" icon={social.icon} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
