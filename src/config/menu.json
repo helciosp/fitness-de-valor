@@ -1,0 +1,42 @@
+{
+  "main": [
+    {
+      "name": "Início",
+      "url": "/"
+    },
+    {
+      "name": "Categorias",
+      "url": "/categories"
+    },
+    {
+      "name": "Tags",
+      "url": "/tags"
+    },
+    {
+      "name": "Sobre",
+      "url": "/about"
+    },
+    {
+      "name": "Contato",
+      "url": "/contact"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Início",
+      "url": "/"
+    },
+    {
+      "name": "Sobre",
+      "url": "/about"
+    },
+    {
+      "name": "Contato",
+      "url": "/contact"
+    },
+    {
+      "name": "Política de Privacidade",
+      "url": "/privacy-policy"
+    }
+  ]
+}

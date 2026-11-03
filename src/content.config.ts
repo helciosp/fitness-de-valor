@@ -1,20 +1,76 @@
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { z } from 'astro/zod';
+import { glob } from "astro/loaders";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 
-const blog = defineCollection({
-	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			description: z.string(),
-			pubDate: z.coerce.date(),
-			category: z.string(),
-			productName: z.string(),
-			affiliateLink: z.string().url(),
-			updatedDate: z.coerce.date().optional(),
-			heroImage: z.optional(image()),
-		}),
+// About collection schema
+const aboutCollection = defineCollection({
+  loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/about" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    image: z.string().optional(),
+    draft: z.boolean().optional(),
+    what_i_do: z.object({
+      title: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          description: z.string(),
+        }),
+      ),
+    }),
+  }),
 });
 
-export const collections = { blog };
+// Contact collection schema
+const contactCollection = defineCollection({
+  loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/contact" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    image: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
+// Posts collection schema
+const postsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/posts" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    date: z.coerce.date().optional(),
+    pubDate: z.coerce.date().optional(),
+    image: z.string().optional(),
+    imageCredit: z.string().optional(),
+    categories: z.array(z.string()).default(() => ["geral"]),
+    category: z.string().optional(),
+    productName: z.string().optional(),
+    affiliateLink: z.url().optional(),
+    tags: z.array(z.string()).default(() => ["fitness"]),
+    draft: z.boolean().optional(),
+  }),
+});
+
+// Pages collection schema
+const pagesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/pages" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    image: z.string().optional(),
+    layout: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
+// Export collections
+export const collections = {
+  posts: postsCollection,
+  about: aboutCollection,
+  contact: contactCollection,
+  pages: pagesCollection,
+};

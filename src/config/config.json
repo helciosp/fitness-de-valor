@@ -1,0 +1,34 @@
+{
+  "site": {
+    "title": "Fitness de Valor",
+    "base_url": "https://fitnessdevalor.com.br",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "",
+    "logo_width": "200",
+    "logo_height": "34",
+    "logo_text": "Fitness de Valor"
+  },
+
+  "settings": {
+    "pagination": 5
+  },
+
+  "metadata": {
+    "meta_author": "Fitness de Valor",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Análises diretas e recomendações de suplementos, equipamentos e acessórios fitness com melhor custo-benefício."
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "copyright": "Copyright © 2026 Fitness de Valor. Todos os direitos reservados."
+  },
+
+  "contactinfo": {
+    "address": "Brasil",
+    "email": "contato@fitnessdevalor.com.br",
+    "phone": ""
+  }
+}
