@@ -70,6 +70,8 @@ const postDate = date || pubDate;
                 height={500}
                 width={1000}
                 alt={title}
+                loading="eager"
+                fetchpriority="high"
                 class="rounded-lg w-full object-cover"
               />
               {imageCredit && (

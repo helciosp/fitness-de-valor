@@ -33,6 +33,8 @@ const { className, posts, fluid } = Astro.props;
                 alt={post.data.title}
                 width={i === 0 ? 925 : 445}
                 height={i === 0 ? 475 : 230}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchpriority={i === 0 ? "high" : "auto"}
               />
             </a>
           )}
