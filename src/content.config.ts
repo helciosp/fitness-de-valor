@@ -36,7 +36,7 @@ const contactCollection = defineCollection({
 
 // Posts collection schema
 const postsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/posts" }),
+  loader: glob({ pattern: "**/*.mdx", base: "src/content/posts" }),
   schema: z.object({
     title: z.string(),
     meta_title: z.string().optional(),
@@ -47,8 +47,6 @@ const postsCollection = defineCollection({
     imageCredit: z.string().optional(),
     categories: z.array(z.string()).default(() => ["geral"]),
     category: z.string().optional(),
-    productName: z.string().optional(),
-    affiliateLink: z.url().optional(),
     tags: z.array(z.string()).default(() => ["fitness"]),
     draft: z.boolean().optional(),
   }),

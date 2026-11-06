@@ -1,6 +1,5 @@
 ---
 import ProductCard from "@/components/ProductCard.astro";
-import Share from "@/components/Share.astro";
 import SimilarPosts from "@/components/SimilarPosts.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
@@ -16,11 +15,7 @@ const similarPosts = similerItems(post, posts, post.slug);
 const { Content } = await render(post);
 const {
   title,
-  description,
   categories,
-  category,
-  productName,
-  affiliateLink,
   image,
   imageCredit,
   date,
@@ -89,27 +84,9 @@ const postDate = date || pubDate;
       </div>
 
       <div class="md:col-10">
-        {
-          productName && affiliateLink && (
-            <ProductCard
-              productName={productName}
-              affiliateLink={affiliateLink}
-              category={category || categories?.[0]}
-            />
-          )
-        }
         <div class="content mb-16 text-left">
-          <Content />
+          <Content components={{ ProductCard }} />
         </div>
-        {
-          productName && affiliateLink && (
-            <ProductCard
-              productName={productName}
-              affiliateLink={affiliateLink}
-              category={category || categories?.[0]}
-            />
-          )
-        }
         <div class="flex flex-wrap items-center justify-between">
           <ul class="mr-4 mb-4 space-x-3">
             {
@@ -125,12 +102,6 @@ const postDate = date || pubDate;
               ))
             }
           </ul>
-          <Share
-            className="social-share mb-4"
-            title={title}
-            description={description}
-            slug={post.id}
-          />
         </div>
       </div>
     </article>
