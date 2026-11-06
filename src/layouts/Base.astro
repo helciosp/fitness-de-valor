@@ -35,9 +35,8 @@ const ogImage = typeof image === "string" ? image : image?.src;
 <html lang="pt-BR">
   <head>
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
+    <link rel="icon" type="image/png" sizes="48x48" href={config.site.favicon} />
     <!-- theme meta -->
-    <meta name="theme-name" content="bookworm-light-astro" />
     <meta name="msapplication-TileColor" content="#000000" />
     <meta
       name="theme-color"
@@ -128,20 +127,24 @@ const ogImage = typeof image === "string" ? image : image?.src;
     />
 
     <!-- og-image -->
-    <meta
-      property="og:image"
-      content={`${config.site.base_url}${
-        ogImage ? ogImage : config.metadata.meta_image
-      }`}
-    />
+    {
+      (ogImage || config.metadata.meta_image) && (
+        <meta
+          property="og:image"
+          content={`${config.site.base_url}${ogImage || config.metadata.meta_image}`}
+        />
+      )
+    }
 
     <!-- twitter-image -->
-    <meta
-      name="twitter:image"
-      content={`${config.site.base_url}${
-        ogImage ? ogImage : config.metadata.meta_image
-      }`}
-    />
+    {
+      (ogImage || config.metadata.meta_image) && (
+        <meta
+          name="twitter:image"
+          content={`${config.site.base_url}${ogImage || config.metadata.meta_image}`}
+        />
+      )
+    }
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
