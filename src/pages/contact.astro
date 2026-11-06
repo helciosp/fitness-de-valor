@@ -4,14 +4,13 @@ import Base from "@/layouts/Base.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
-import { FaAddressCard, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 const entry = (await getEntry(
   "contact",
-  "-index"
+  "-index",
 )) as CollectionEntry<"contact">;
-const { contact_form_action } = config.params;
-const { address, email, phone } = config.contactinfo;
+const { address, email } = config.contactinfo;
 const { title, description, meta_title, image } = entry.data;
 ---
 
@@ -23,96 +22,46 @@ const { title, description, meta_title, image } = entry.data;
 >
   <section class="section">
     <div class="container">
-      <h1 set:html={markdownify(title)} class="h2 page-heading" />
-      <div class="row md:gx-5 gy-5">
-        <div class="sm:col-5 md:col-4">
-          <p class="mb-8 text-2xl font-bold text-text-dark">
-            Informações de Contato
-          </p>
-          <ul class="flex flex-col space-y-8">
-            {
-              address && (
-                <li>
-                  <div class="flex text-text-dark items-center text-xl">
-                    <FaAddressCard className="mr-3 text-primary" />
-                    <p class="font-semibold">Localização</p>
-                  </div>
-                  <p
-                    set:html={markdownify(address)}
-                    class="mt-2 leading-5 pl-8"
-                  />
-                </li>
-              )
-            }
+      <div class="row justify-center">
+        <div class="md:col-10 lg:col-8">
+          <h1 set:html={markdownify(title)} class="h2 page-heading" />
+
+          <div class="rounded-2xl border border-border bg-white p-6 text-center shadow-xs sm:p-10">
+            <p class="mx-auto mb-6 max-w-xl text-base leading-relaxed text-text sm:text-lg">
+              Tem alguma sugestão de produto para eu analisar, encontrou alguma
+              informação desatualizada ou quer falar sobre parcerias? Entre em
+              contato diretamente comigo por e-mail.
+            </p>
+
             {
               email && (
-                <li>
-                  <div class="flex text-text-dark items-center text-xl">
-                    <FaEnvelope className="mr-3 text-primary" />
-                    <p class="font-semibold">E-mail</p>
+                <div class="my-8 flex flex-col items-center gap-4">
+                  <div class="inline-flex items-center gap-2.5 rounded-xl bg-light px-4 py-3 text-text-dark sm:px-6">
+                    <FaEnvelope className="h-5 w-5 shrink-0 text-primary" />
+                    <span class="break-all font-semibold sm:text-lg">
+                      {email}
+                    </span>
                   </div>
-                  <p
-                    set:html={markdownify(email)}
-                    class="mt-2 leading-5 pl-8 content"
-                  />
-                </li>
+
+                  <a
+                    href={`mailto:${email}`}
+                    class="btn btn-primary mt-2 inline-flex w-full items-center justify-center gap-2 text-white sm:w-auto"
+                  >
+                    <span>Enviar E-mail</span>
+                  </a>
+                </div>
               )
             }
+
             {
-              phone && (
-                <li>
-                  <div class="flex text-text-dark items-center text-xl">
-                    <FaPhoneAlt className="mr-3 text-primary" />
-                    <p class="font-semibold">Telefone</p>
-                  </div>
-                  <p set:html={markdownify(phone)} class="mt-2 leading-5 pl-8" />
-                </li>
+              address && (
+                <p class="mt-6 flex items-center justify-center gap-1.5 text-sm text-text">
+                  <FaMapMarkerAlt className="h-4 w-4 shrink-0 text-primary" />
+                  <span>{address}</span>
+                </p>
               )
             }
-          </ul>
-        </div>
-        <div class="sm:col-7 md:col-8">
-          <form
-            class="contact-form row gy-2 justify-center"
-            method="POST"
-            action={contact_form_action}
-          >
-            <div class="lg:col-6">
-              <label class="mb-2 block" for="name"
-                >Nome <span class="text-red-600">*</span></label
-              >
-              <input
-                class="form-input w-full"
-                name="name"
-                type="text"
-                required
-              />
-            </div>
-            <div class="lg:col-6">
-              <label class="mb-2 block" for="email"
-                >E-mail <span class="text-red-600">*</span></label
-              >
-              <input
-                class="form-input w-full"
-                name="email"
-                type="email"
-                required
-              />
-            </div>
-            <div class="col-12">
-              <label class="mb-2 block" for="subject">Assunto</label>
-              <input class="form-input w-full" name="subject" type="text" />
-            </div>
-            <div class="col-12">
-              <label class="mb-2 block" for="message"
-                >Mensagem <span class="text-red-600">*</span></label
-              >
-              <textarea class="form-textarea w-full" rows="4"></textarea>
-            </div>
-            <div class="col-12">
-              <button class="btn btn-primary mt-2">Enviar Mensagem</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
