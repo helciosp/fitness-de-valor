@@ -22,3 +22,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# firebase cache and logs
+.firebase/
+firebase-debug.log*
+
+# local AI rules
+regras.md
+AGENTS.md
