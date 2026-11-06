@@ -37,19 +37,20 @@ const contactCollection = defineCollection({
 // Posts collection schema
 const postsCollection = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "src/content/posts" }),
-  schema: z.object({
-    title: z.string(),
-    meta_title: z.string().optional(),
-    description: z.string().optional(),
-    date: z.coerce.date().optional(),
-    pubDate: z.coerce.date().optional(),
-    image: z.string().optional(),
-    imageCredit: z.string().optional(),
-    categories: z.array(z.string()).default(() => ["geral"]),
-    category: z.string().optional(),
-    tags: z.array(z.string()).default(() => ["fitness"]),
-    draft: z.boolean().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      meta_title: z.string().optional(),
+      description: z.string().optional(),
+      date: z.coerce.date().optional(),
+      pubDate: z.coerce.date().optional(),
+      image: image().optional(),
+      imageCredit: z.string().optional(),
+      categories: z.array(z.string()).default(() => ["geral"]),
+      category: z.string().optional(),
+      tags: z.array(z.string()).default(() => ["fitness"]),
+      draft: z.boolean().optional(),
+    }),
 });
 
 // Pages collection schema

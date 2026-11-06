@@ -2,16 +2,28 @@
 import SearchBar from "@/helpers/SearchBar";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { getImage } from "astro:assets";
 
 // Retrieve all articles
 const posts = await getSinglePage("posts");
 
-// List of items to search in
-const searchList = posts.map((item) => ({
-  slug: `blog/${item.id}`,
-  data: item.data,
-  content: item.body,
-}));
+// List of items to search in (with optimized WebP thumbnail URLs)
+const searchList = await Promise.all(
+  posts.map(async (item) => {
+    const optimizedImage = item.data.image
+      ? (await getImage({ src: item.data.image, width: 445, height: 230 })).src
+      : undefined;
+
+    return {
+      slug: `blog/${item.id}`,
+      data: {
+        ...item.data,
+        image: optimizedImage,
+      },
+      content: item.body,
+    };
+  }),
+);
 ---
 
 <Base title={`Buscar`}>
