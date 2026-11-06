@@ -29,6 +29,12 @@ export interface Props {
 const { title, meta_title, description, image, noindex, canonical } =
   Astro.props;
 const ogImage = typeof image === "string" ? image : image?.src;
+const cleanPathname =
+  Astro.url.pathname.length > 1
+    ? Astro.url.pathname.replace(/\/$/, "")
+    : Astro.url.pathname;
+const canonicalURL =
+  canonical || new URL(cleanPathname, Astro.site || config.site.base_url).href;
 ---
 
 <!doctype html>
@@ -71,7 +77,7 @@ const ogImage = typeof image === "string" ? image : image?.src;
     </title>
 
     <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    <link rel="canonical" href={canonicalURL} />
 
     <!-- noindex robots -->
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -105,10 +111,7 @@ const ogImage = typeof image === "string" ? image : image?.src;
       )}
     />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
-    />
+    <meta property="og:url" content={canonicalURL} />
 
     <!-- twitter-title -->
     <meta
