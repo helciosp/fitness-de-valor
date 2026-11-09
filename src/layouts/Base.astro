@@ -41,7 +41,12 @@ const canonicalURL =
 <html lang="pt-BR">
   <head>
     <!-- favicon -->
-    <link rel="icon" type="image/png" sizes="48x48" href={config.site.favicon} />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href={config.site.favicon}
+    />
     <!-- theme meta -->
     <meta name="msapplication-TileColor" content="#000000" />
     <meta
@@ -157,5 +162,25 @@ const canonicalURL =
       <slot />
     </main>
     <Footer />
+    <script>
+      import { initializeApp } from "firebase/app";
+      import { getAnalytics, isSupported } from "firebase/analytics";
+      const firebaseConfig = {
+        apiKey: "AIzaSyDO3YnCsqovA6tx2lIUY9xUMF2N1PhW1hs",
+        authDomain: "fitness-de-valor.firebaseapp.com",
+        projectId: "fitness-de-valor",
+        storageBucket: "fitness-de-valor.firebasestorage.app",
+        messagingSenderId: "111453049058",
+        appId: "1:111453049058:web:fef713408df4e10c980ebb",
+        measurementId: "G-01H6JH9QN7",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      isSupported().then((supported) => {
+        if (supported) {
+          getAnalytics(app);
+        }
+      });
+    </script>
   </body>
 </html>
