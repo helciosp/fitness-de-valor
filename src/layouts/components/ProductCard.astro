@@ -1,18 +1,39 @@
 ---
+interface LinkOption {
+	label: string;
+	url: string;
+}
+
 interface Props {
 	productName: string;
-	affiliateLink: string;
+	affiliateLink?: string;
+	links?: LinkOption[];
 	category?: string;
 }
 
-const { productName, affiliateLink, category } = Astro.props;
+const { productName, affiliateLink, links, category } = Astro.props;
+
+// Normaliza para funcionar tanto com 1 link (affiliateLink) quanto múltiplos (links)
+const resolvedLinks: LinkOption[] =
+	links && links.length > 0
+		? links
+		: affiliateLink !== undefined
+			? [{ label: "Ver Oferta no Mercado Livre", url: affiliateLink }]
+			: [];
+
+const isMultiLink = resolvedLinks.length > 1;
 ---
 
 <aside
 	aria-label={`Oferta recomendada: ${productName}`}
 	class="not-prose my-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:p-6"
 >
-	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+	<div
+		class:list={[
+			"flex flex-col gap-4",
+			!isMultiLink && "sm:flex-row sm:items-center sm:justify-between",
+		]}
+	>
 		<div class="min-w-0 flex-1 space-y-2">
 			<div class="flex flex-wrap items-center gap-2">
 				<span class="inline-flex items-center rounded-md bg-[#FFE600] px-2.5 py-0.5 text-xs font-bold tracking-wide text-slate-900 uppercase">
@@ -28,7 +49,7 @@ const { productName, affiliateLink, category } = Astro.props;
 				<span class="inline-flex items-center gap-1 text-xs font-semibold text-[#00A650]">
 					<svg
 						class="h-3.5 w-3.5 shrink-0"
-						 viewBox="0 0 20 20"
+						viewBox="0 0 20 20"
 						fill="currentColor"
 						aria-hidden="true"
 					>
@@ -51,27 +72,41 @@ const { productName, affiliateLink, category } = Astro.props;
 			</p>
 		</div>
 
-		<div class="shrink-0 pt-2 sm:pt-0">
-			<a
-				href={affiliateLink}
-				target="_blank"
-				rel="sponsored nofollow noopener"
-				class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3483FA] px-6 py-3.5 text-center text-sm font-bold text-white no-underline shadow-xs transition-colors hover:bg-[#2968C8] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3483FA] active:bg-[#1F4E96] sm:w-auto sm:text-base"
-			>
-				<span>Ver Oferta no Mercado Livre</span>
-				<svg
-					class="h-4 w-4 shrink-0"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-					aria-hidden="true"
-				>
-					<path
-						fill-rule="evenodd"
-						d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z"
-						clip-rule="evenodd"
-					/>
-				</svg>
-			</a>
+		<div
+			class:list={[
+				"shrink-0 pt-2",
+				isMultiLink
+					? "grid grid-cols-1 gap-2.5 sm:grid-cols-2"
+					: "sm:pt-0",
+			]}
+		>
+			{
+				resolvedLinks.map((item) => (
+					<a
+						href={item.url}
+						target="_blank"
+						rel="sponsored nofollow noopener"
+						class:list={[
+							"inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3483FA] px-5 py-3.5 text-center text-sm font-bold text-white no-underline shadow-xs transition-colors hover:bg-[#2968C8] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3483FA] active:bg-[#1F4E96] sm:text-base",
+							!isMultiLink && "sm:w-auto sm:px-6",
+						]}
+					>
+						<span>{item.label}</span>
+						<svg
+							class="h-4 w-4 shrink-0"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z"
+								clip-rule="evenodd"
+							/>
+						</svg>
+					</a>
+				))
+			}
 		</div>
 	</div>
 </aside>
