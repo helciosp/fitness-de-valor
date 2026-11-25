@@ -1,5 +1,6 @@
 ---
 import ProductCard from "@/components/ProductCard.astro";
+import ProductCarousel from "@/components/ProductCarousel.astro";
 import SimilarPosts from "@/components/SimilarPosts.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
@@ -87,7 +88,7 @@ const postDate = date || pubDate;
 
       <div class="md:col-10">
         <div class="content mb-8 text-left">
-          <Content components={{ ProductCard }} />
+          <Content components={{ ProductCard, ProductCarousel }} />
         </div>
 
         <p class="mb-8 text-xs text-gray-500 italic">

@@ -9,26 +9,30 @@ interface Props {
 	affiliateLink?: string;
 	links?: LinkOption[];
 	category?: string;
+	description?: string;
 }
 
-const { productName, affiliateLink, links, category } = Astro.props;
+const { productName, affiliateLink, links, category, description } =
+	Astro.props;
 
 // Normaliza para funcionar tanto com 1 link (affiliateLink) quanto múltiplos (links)
 const resolvedLinks: LinkOption[] =
 	links && links.length > 0
 		? links
 		: affiliateLink !== undefined
-			? [{ label: "Ver Oferta no Mercado Livre", url: affiliateLink }]
+			? [{ label: "Ver Oferta", url: affiliateLink }]
 			: [];
 
 const isMultiLink = resolvedLinks.length > 1;
 ---
 
 <aside
+	data-product-card
 	aria-label={`Oferta recomendada: ${productName}`}
 	class="not-prose my-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:p-6"
 >
 	<div
+		data-product-card-inner
 		class:list={[
 			"flex flex-col gap-4",
 			!isMultiLink && "sm:flex-row sm:items-center sm:justify-between",
@@ -68,11 +72,15 @@ const isMultiLink = resolvedLinks.length > 1;
 			</h2>
 
 			<p class="m-0 text-xs text-slate-500 sm:text-sm">
-				Confira disponibilidade, avaliações reais e condições de frete no site oficial.
+				{
+					description ||
+						"Confira disponibilidade, avaliações e condições de frete no site oficial."
+				}
 			</p>
 		</div>
 
 		<div
+			data-product-card-actions
 			class:list={[
 				"shrink-0 pt-2",
 				isMultiLink
@@ -83,6 +91,7 @@ const isMultiLink = resolvedLinks.length > 1;
 			{
 				resolvedLinks.map((item) => (
 					<a
+						data-product-card-btn
 						href={item.url}
 						target="_blank"
 						rel="sponsored nofollow noopener"

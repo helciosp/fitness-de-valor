@@ -1,0 +1,136 @@
+---
+---
+
+<div
+	data-carousel-wrapper
+	class="not-prose relative my-8"
+	aria-label="Vitrine de produtos recomendados"
+>
+	<button
+		type="button"
+		data-carousel-prev
+		aria-label="Produto anterior"
+		class=" absolute top-1/2 -left-3 z-10 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md transition-all hover:border-[#3483FA] hover:text-[#3483FA] disabled:pointer-events-none disabled:opacity-0 sm:-left-5"
+	>
+		<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+			<path
+				fill-rule="evenodd"
+				d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+				clip-rule="evenodd"
+			/>
+		</svg>
+	</button>
+
+	<div
+		data-product-carousel
+		class="flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+	>
+		<slot />
+	</div>
+
+	<button
+		type="button"
+		data-carousel-next
+		aria-label="Próximo produto"
+		class="absolute top-1/2 -right-3 z-10 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md transition-all hover:border-[#3483FA] hover:text-[#3483FA] disabled:pointer-events-none disabled:opacity-0 sm:-right-5"
+	>
+		<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+			<path
+				fill-rule="evenodd"
+				d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+				clip-rule="evenodd"
+			/>
+		</svg>
+	</button>
+</div>
+
+<style>
+	:global([data-product-carousel] > [data-product-card]) {
+		margin-top: 0;
+		margin-bottom: 0;
+		width: 85%;
+		flex-shrink: 0;
+		scroll-snap-align: start;
+		display: flex;
+		flex-direction: column;
+	}
+
+	@media (min-width: 640px) {
+		:global([data-product-carousel] > [data-product-card]) {
+			width: calc(50% - 0.5rem);
+		}
+	}
+
+	:global([data-product-carousel] > [data-product-card] > [data-product-card-inner]) {
+		flex: 1;
+		display: flex;
+		flex-direction: column !important;
+		align-items: stretch !important;
+		justify-content: space-between !important;
+	}
+
+	:global([data-product-carousel] [data-product-card-actions]) {
+		width: 100%;
+		padding-top: 0.75rem !important;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+
+	:global([data-product-carousel] [data-product-card-btn]) {
+		width: 100% !important;
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+		font-size: 0.875rem !important;
+	}
+</style>
+
+<script>
+	function initProductCarousels() {
+		document
+			.querySelectorAll<HTMLElement>("[data-carousel-wrapper]")
+			.forEach((wrapper) => {
+				if (wrapper.dataset.initialized === "true") return;
+				wrapper.dataset.initialized = "true";
+
+				const track = wrapper.querySelector<HTMLElement>(
+					"[data-product-carousel]",
+				);
+				const prevBtn = wrapper.querySelector<HTMLButtonElement>(
+					"[data-carousel-prev]",
+				);
+				const nextBtn = wrapper.querySelector<HTMLButtonElement>(
+					"[data-carousel-next]",
+				);
+
+				if (!track || !prevBtn || !nextBtn) return;
+
+				const updateButtons = () => {
+					const maxScrollLeft = track.scrollWidth - track.clientWidth;
+					prevBtn.disabled = track.scrollLeft <= 4;
+					nextBtn.disabled = track.scrollLeft >= maxScrollLeft - 4;
+				};
+
+				const getScrollStep = () => {
+					const firstCard = track.querySelector<HTMLElement>(
+						"[data-product-card]",
+					);
+					return firstCard ? firstCard.offsetWidth + 16 : track.clientWidth * 0.85;
+				};
+
+				prevBtn.addEventListener("click", () => {
+					track.scrollBy({ left: -getScrollStep(), behavior: "smooth" });
+				});
+
+				nextBtn.addEventListener("click", () => {
+					track.scrollBy({ left: getScrollStep(), behavior: "smooth" });
+				});
+
+				track.addEventListener("scroll", updateButtons, { passive: true });
+				window.addEventListener("resize", updateButtons, { passive: true });
+				updateButtons();
+			});
+	}
+
+	document.addEventListener("astro:page-load", initProductCarousels);
+</script>
